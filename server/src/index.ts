@@ -74,7 +74,7 @@ passport.deserializeUser((id: string, cb) => {
 })
 
 // Routes
-app.post('/register', async (req: Request, res: Response) => {
+app.post('/signup', async (req: Request, res: Response) => {
   // username, password
   const { username, password } = req?.body
 
@@ -107,7 +107,7 @@ app.post('/register', async (req: Request, res: Response) => {
   })
 })
 
-app.post('/login', passport.authenticate('local'), (req, res) => {
+app.post('/signin', passport.authenticate('local'), (req, res) => {
   res.send('Successfully Authenticated')
 })
 
