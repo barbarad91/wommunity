@@ -14,7 +14,10 @@ class AuthService {
     return this.api.post<SignInResponse>('/signin', userData, { withCredentials: true })
   }
   getUser = () => {
-    return this.api.get('/user', { withCredentials: true })
+    return this.api.get<GetUserResponse | string>('/user', { withCredentials: true })
+  }
+  signOut = () => {
+    return this.api.get('/signout', { withCredentials: true })
   }
 }
 
@@ -23,6 +26,11 @@ type SignInData = {
   password: string
 }
 
-type SignInResponse = string
+type SignInResponse = GetUserResponse | string
+
+type GetUserResponse = {
+  username: string
+  isAdmin: boolean
+}
 
 export default AuthService

@@ -1,11 +1,11 @@
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 import AuthService from 'src/Services/auth.service'
 
-export const myContext = createContext<any>({})
-const Context = (props: PropsWithChildren<any>) => {
+export const loggedUserContext = createContext<any>({})
+const UserContext = (props: PropsWithChildren<any>) => {
   const authService = useMemo(() => new AuthService(), [])
 
-  const [user, setUser] = useState()
+  const [user, setUser] = useState({})
 
   const fetchUser = useCallback(async () => {
     try {
@@ -20,7 +20,7 @@ const Context = (props: PropsWithChildren<any>) => {
     fetchUser()
   }, [fetchUser])
 
-  return <myContext.Provider value={user}>{props.children}</myContext.Provider>
+  return <loggedUserContext.Provider value={{ user, setUser }}>{props.children}</loggedUserContext.Provider>
 }
 
-export default Context
+export default UserContext

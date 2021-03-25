@@ -5,12 +5,18 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@mdi/react'
 import { mdiMenu } from '@mdi/js'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Menu, MenuItem } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import { loggedUserContext } from 'src/Pages/userContext'
+import AuthService from 'src/Services/auth.service'
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+
+  const classes = useStyles()
+
+  const { user, setUser } = useContext(loggedUserContext)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
@@ -20,8 +26,13 @@ const NavBar = () => {
     setAnchorEl(null)
   }
 
-  const classes = useStyles()
+  const authService = new AuthService()
 
+  const signOut = async () => {
+    setAnchorEl(null)
+    const userData = await authService.signOut()
+    setUser(userData.data)
+  }
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -35,11 +46,35 @@ const NavBar = () => {
           >
             <Icon path={mdiMenu} size={1} />
           </IconButton>
-          <Menu id="nav-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-            <MenuItem className={classes.styledMenuItem} onClick={handleClose} component={Link} to="/profile">
-              Profile
-            </MenuItem>
-          </Menu>
+
+          {user && (
+            <Menu id="nav-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+              <MenuItem
+                key="menu-profile"
+                className={classes.styledMenuItem}
+                onClick={handleClose}
+                component={Link}
+                to="/profile"
+              >
+                Profile
+              </MenuItem>
+              {user.isAdmin && (
+                <MenuItem
+                  key="menu-profile"
+                  className={classes.styledMenuItem}
+                  onClick={handleClose}
+                  component={Link}
+                  to="/profile"
+                >
+                  Admin
+                </MenuItem>
+              )}
+              <MenuItem key="menu-signout" className={classes.styledMenuItem} onClick={signOut} component={Link} to="/">
+                Sign Out
+              </MenuItem>
+            </Menu>
+          )}
+
           <Typography variant="h6" className={classes.title} component={Link} to="/">
             Wommunity
           </Typography>

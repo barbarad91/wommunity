@@ -73,6 +73,15 @@ passport.deserializeUser((id: string, cb) => {
   })
 })
 
+declare global {
+  namespace Express {
+    interface User {
+      username: string
+      isAdmin: boolean
+    }
+  }
+}
+
 // Routes
 app.post('/signup', async (req: Request, res: Response) => {
   // username, password
@@ -98,8 +107,8 @@ app.post('/signup', async (req: Request, res: Response) => {
           password: hashedPassword,
         }
 
-        await User.create({ ...newUser })
-        res.send('success')
+        const createdUser = await User.create({ ...newUser })
+        res.send(createdUser)
       } catch (error) {
         res.json({ message: 'there was an error', error: { error } })
       }
@@ -108,11 +117,30 @@ app.post('/signup', async (req: Request, res: Response) => {
 })
 
 app.post('/signin', passport.authenticate('local'), (req, res) => {
-  res.send('Successfully Authenticated')
+  if (req.user) {
+    const { username, isAdmin } = req.user
+    res.send({ username, isAdmin })
+  } else {
+    res.send('There was an error during sign in')
+  }
 })
 
 app.get('/user', (req, res) => {
-  res.send(req.user)
+  if (req.user) {
+    const { username, isAdmin } = req.user
+    res.send({ username, isAdmin })
+  } else {
+    res.send('')
+  }
+})
+
+app.get('/signout', (req, res) => {
+  req.logout()
+  if (!req.user) {
+    res.send(req.user)
+  } else {
+    res.send('There was an error during sign out')
+  }
 })
 
 app.listen(5000, () => {

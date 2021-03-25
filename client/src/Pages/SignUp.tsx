@@ -5,13 +5,12 @@ import { mdiLockOutline } from '@mdi/js'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import Link from '@material-ui/core/Link'
-import Grid from '@material-ui/core/Grid'
 import Icon from '@mdi/react'
 import SignInForm from 'src/Components/SignInForm'
 
-const SignIn = (props: { history: any }) => {
+const SignUp = () => {
   const classes = useStyles()
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -22,19 +21,7 @@ const SignIn = (props: { history: any }) => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <SignInForm formClass={classes.form} submitClass={classes.submit} history={props.history} />
-        <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link href="/signup" variant="body2">
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Grid>
-        </Grid>
+        <SignInForm formClass={classes.form} submitClass={classes.submit} />
       </div>
       <Box mt={8}></Box>
     </Container>
@@ -61,4 +48,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default SignIn
+export default SignUp
