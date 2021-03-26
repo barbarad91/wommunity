@@ -37,28 +37,19 @@ const NavBar = () => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={handleClick}
-          >
-            <Icon path={mdiMenu} size={1} />
-          </IconButton>
-
           {user && (
-            <Menu id="nav-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-              <MenuItem
-                key="menu-profile"
-                className={classes.styledMenuItem}
-                onClick={handleClose}
-                component={Link}
-                to="/profile"
+            <>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="menu"
+                onClick={handleClick}
               >
-                Profile
-              </MenuItem>
-              {user.isAdmin && (
+                <Icon path={mdiMenu} size={1} />
+              </IconButton>
+
+              <Menu id="nav-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                 <MenuItem
                   key="menu-profile"
                   className={classes.styledMenuItem}
@@ -66,13 +57,30 @@ const NavBar = () => {
                   component={Link}
                   to="/profile"
                 >
-                  Admin
+                  Profile
                 </MenuItem>
-              )}
-              <MenuItem key="menu-signout" className={classes.styledMenuItem} onClick={signOut} component={Link} to="/">
-                Sign Out
-              </MenuItem>
-            </Menu>
+                {user.isAdmin && (
+                  <MenuItem
+                    key="menu-profile"
+                    className={classes.styledMenuItem}
+                    onClick={handleClose}
+                    component={Link}
+                    to="/profile"
+                  >
+                    Admin
+                  </MenuItem>
+                )}
+                <MenuItem
+                  key="menu-signout"
+                  className={classes.styledMenuItem}
+                  onClick={signOut}
+                  component={Link}
+                  to="/"
+                >
+                  Sign Out
+                </MenuItem>
+              </Menu>
+            </>
           )}
 
           <Typography variant="h6" className={classes.title} component={Link} to="/">
