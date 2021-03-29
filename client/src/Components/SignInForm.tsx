@@ -5,6 +5,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import React, { useContext, useState } from 'react'
 import AuthService from 'src/Services/auth.service'
 import { loggedUserContext } from 'src/Pages/userContext'
+import { useHistory } from 'react-router'
 
 type SignInFormProps = {
   formClass?: string
@@ -12,9 +13,11 @@ type SignInFormProps = {
   history?: any
 }
 
-const SignInForm = ({ formClass, submitClass, history }: SignInFormProps) => {
+const SignInForm = ({ formClass, submitClass }: SignInFormProps) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const history = useHistory()
 
   const { setUser } = useContext(loggedUserContext)
   const authService = new AuthService()

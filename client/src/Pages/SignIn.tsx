@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid'
 import Icon from '@mdi/react'
 import SignInForm from 'src/Components/SignInForm'
 
-const SignIn = (props: { history: any }) => {
+const SignIn = () => {
   const classes = useStyles()
   return (
     <Container component="main" maxWidth="xs">
@@ -22,7 +22,7 @@ const SignIn = (props: { history: any }) => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <SignInForm formClass={classes.form} submitClass={classes.submit} history={props.history} />
+        <SignInForm formClass={classes.form} submitClass={classes.submit} />
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
