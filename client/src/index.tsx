@@ -1,7 +1,7 @@
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import App from './Components/App'
 import theme from './Components/theme'
 import UserContext from './Pages/userContext'
 
