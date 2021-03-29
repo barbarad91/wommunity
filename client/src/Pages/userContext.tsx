@@ -1,8 +1,9 @@
-import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
+import { createContext, FunctionComponent, useCallback, useEffect, useMemo, useState } from 'react'
 import AuthService from 'src/Services/auth.service'
 
 export const loggedUserContext = createContext<any>({})
-const UserContext = (props: PropsWithChildren<any>) => {
+
+const UserContext: FunctionComponent = (props) => {
   const authService = useMemo(() => new AuthService(), [])
 
   const [user, setUser] = useState({})
@@ -10,6 +11,7 @@ const UserContext = (props: PropsWithChildren<any>) => {
   const fetchUser = useCallback(async () => {
     try {
       const fetchData = await authService.getUser()
+
       setUser(fetchData.data)
     } catch (error) {
       console.error(error)

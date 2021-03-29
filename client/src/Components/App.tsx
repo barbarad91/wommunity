@@ -8,6 +8,9 @@ import Copyright from './Copyright'
 import { loggedUserContext } from '../Pages/userContext'
 import SignUp from '../Pages/SignUp'
 import { useContext } from 'react'
+import LoggedInRoute from './LoggedInRoute'
+import LoggedOutRoute from './LoggedOutRoute'
+import AdminRoute from './AdminRoute'
 
 function App() {
   const ctx = useContext(loggedUserContext).user
@@ -19,18 +22,10 @@ function App() {
         <Route path="/" exact>
           {ctx ? <Homepage /> : <Redirect to="signin" />}
         </Route>
-
-        {ctx ? (
-          <>
-            {ctx.isAdmin && <Route path="/admin" component={Adminpage}></Route>}
-            <Route path="/profile" component={Profile}></Route>
-          </>
-        ) : (
-          <>
-            <Route path="/signup" component={SignUp}></Route>
-            <Route path="/signin" component={SignIn}></Route>
-          </>
-        )}
+        <LoggedOutRoute path="/signin" component={SignIn} />
+        <LoggedOutRoute path="/signup" component={SignUp} />
+        <LoggedInRoute path="/profile" component={Profile} />
+        <AdminRoute path="/admin" component={Adminpage} />
       </Switch>
       <Copyright />
     </BrowserRouter>
