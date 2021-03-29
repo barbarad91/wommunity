@@ -16,6 +16,8 @@ const NavBar = () => {
   const classes = useStyles()
 
   const { user } = useContext(loggedUserContext)
+  const userIsEmpty = !Object.keys(user).length
+
   const [open, setOpen] = useState(false)
 
   const handleClickMenu = () => {
@@ -26,7 +28,7 @@ const NavBar = () => {
     <div className={classes.root}>
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-          {user && (
+          {!userIsEmpty && (
             <>
               <IconButton
                 edge="start"
@@ -45,7 +47,7 @@ const NavBar = () => {
         </Toolbar>
       </AppBar>
 
-      {user && (
+      {!userIsEmpty && (
         <Drawer
           variant="permanent"
           classes={{ paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose) }}

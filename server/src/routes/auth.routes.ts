@@ -48,13 +48,25 @@ router.post('/signup', async (req: Request, res: Response) => {
   })
 })
 
-router.post('/signin', passport.authenticate('local'), (req, res) => {
-  if (req.user) {
-    const { username, isAdmin } = req.user as UserInterface
-    res.send({ username, isAdmin })
-  } else {
-    res.send('There was an error during sign in')
-  }
+router.post('/signin', (req, res, next) => {
+  passport.authenticate('local', { failureFlash: true }, (err, theUser, failureDetails) => {
+    if (err) {
+      console.log(err)
+      res.status(500).json({ message: 'Error authenticating user' })
+      return
+    }
+
+    if (!theUser) {
+      res.status(401).json(failureDetails)
+      return
+    }
+
+    console.log(theUser)
+    const { username, isAdmin } = theUser
+    req.login(theUser, (err) =>
+      err ? res.status(500).json({ message: 'Session error' }) : res.json({ username, isAdmin })
+    )
+  })(req, res, next)
 })
 
 router.get('/user', (req, res) => {

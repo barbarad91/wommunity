@@ -4,6 +4,8 @@ import passport from 'passport'
 import passportLocal from 'passport-local'
 import User from '../models/User.model'
 import { Express } from 'express'
+import flash from 'connect-flash'
+import { UserInterface } from 'src/Interfaces/User.interface'
 
 const LocalStrategy = passportLocal.Strategy
 
@@ -16,19 +18,48 @@ const passportConfig = (app: Express) => {
     })
   )
 
+  app.use(flash())
+
   passport.use(
-    new LocalStrategy((username, password, done) => {
-      User.findOne({ username: username }, (err: Error, user: any) => {
-        if (err) throw err
+    new LocalStrategy({ passReqToCallback: true }, async (_req, username, password, done) => {
+      try {
+        const theUser = await User.findOne({ username })
+        const userData = (theUser as unknown) as UserInterface
 
-        if (!user) return done(null, false)
+        if (!theUser) {
+          return done(null, false, { message: "This username doesn't exist" })
+        }
 
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (result) {
-            return done(null, user)
-          } else return done(null, false)
-        })
-      })
+        if (!bcrypt.compareSync(password, userData.password)) {
+          return done(null, false, { message: 'Wrong password' })
+        }
+
+        return done(null, theUser)
+      } catch (error) {
+        return done(error, false)
+      }
+      // .then(user=>{
+
+      //   if (!user) {
+      //     console.log('notiuser')
+      //     return done(null, false, { message: "This username doesn't exist" })
+      //   }
+      //   if (!bcrypt.compareSync(password, user.password)) {
+      //     return done(null, false, { message: "Wrong password" })
+      // }
+      // })
+
+      // , (err: Error, user: any) => {
+      //   if (err) {
+      //     return done(null, false, { message: err.message })
+      //   }
+
+      //   bcrypt.compare(password, user.password, (err, result) => {
+      //     if (result) {
+      //       return done(null, user)
+      //     } else return done(null, false)
+      //   })
+      // })
     })
   )
 

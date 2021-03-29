@@ -25,7 +25,9 @@ const SignInForm = ({ formClass, submitClass }: SignInFormProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
+      console.log('in')
       const userData = await authService.signIn({ username, password })
+      console.log(userData)
       setUser(userData.data)
       history.push('/')
     } catch (error) {
@@ -34,7 +36,7 @@ const SignInForm = ({ formClass, submitClass }: SignInFormProps) => {
   }
 
   return (
-    <form className={formClass} noValidate onSubmit={(e) => handleSubmit(e)}>
+    <form className={formClass} noValidate onSubmit={handleSubmit}>
       <TextField
         variant="outlined"
         margin="normal"
