@@ -18,8 +18,8 @@ const BarMenu = () => {
   const authService = new AuthService()
 
   const signOut = async () => {
-    const userData = await authService.signOut()
-    setUser(userData.data)
+    await authService.signOut()
+    setUser({})
   }
 
   return (

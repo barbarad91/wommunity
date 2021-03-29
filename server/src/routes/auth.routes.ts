@@ -8,10 +8,15 @@ const router = express.Router()
 
 router.post('/signup', async (req: Request, res: Response) => {
   // username, password
-  const { username, password } = req?.body
+  const { username, password, confirmPassword } = req?.body
 
   if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
     res.send('Improper Values')
+    return
+  }
+
+  if (password !== confirmPassword) {
+    res.send('Passwords do not match')
     return
   }
 
@@ -31,9 +36,13 @@ router.post('/signup', async (req: Request, res: Response) => {
         }
 
         const createdUser = await User.create({ ...newUser })
-        res.send(createdUser)
+
+        //TODO
+        // Rename variable
+        const bb = (createdUser as unknown) as UserInterface
+        res.send({ username: bb.username, isAdmin: bb.isAdmin })
       } catch (error) {
-        res.json({ message: 'there was an error', error: { error } })
+        res.send('There was an error during sign up')
       }
     }
   })
@@ -53,7 +62,7 @@ router.get('/user', (req, res) => {
     const { username, isAdmin } = req.user as UserInterface
     res.send({ username, isAdmin })
   } else {
-    res.send('')
+    res.send({})
   }
 })
 

@@ -4,10 +4,12 @@ import { loggedUserContext } from 'src/Pages/userContext'
 
 const LoggedOutRoute = ({ component: Component, ...otherProps }: RouteProps) => {
   const { user } = useContext(loggedUserContext)
+
+  const userIsEmpty = !Object.keys(user).length
   return (
     <Route
       render={(otherProps: RouteComponentProps) =>
-        !user && Component ? <Component {...otherProps} /> : <Redirect to="/" />
+        Component && userIsEmpty ? <Component {...otherProps} /> : <Redirect to="/" />
       }
     ></Route>
   )

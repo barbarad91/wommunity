@@ -13,14 +13,14 @@ import LoggedOutRoute from './LoggedOutRoute'
 import AdminRoute from './AdminRoute'
 
 function App() {
-  const ctx = useContext(loggedUserContext).user
-  console.log('ctx', ctx)
+  const { user } = useContext(loggedUserContext)
+  const userIsEmpty = !Object.keys(user).length
   return (
     <BrowserRouter>
       <NavBar />
       <Switch>
         <Route path="/" exact>
-          {ctx ? <Homepage /> : <Redirect to="signin" />}
+          {!userIsEmpty ? <Homepage /> : <Redirect to="signin" />}
         </Route>
         <LoggedOutRoute path="/signin" component={SignIn} />
         <LoggedOutRoute path="/signup" component={SignUp} />

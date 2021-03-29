@@ -4,6 +4,7 @@ import { loggedUserContext } from 'src/Pages/userContext'
 
 const LoggedInRoute = ({ component: Component, ...otherProps }: RouteProps) => {
   const { user } = useContext(loggedUserContext)
+  console.log('user de loggedin', user)
   return (
     <Route
       render={(otherProps: RouteComponentProps) =>
