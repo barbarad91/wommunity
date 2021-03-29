@@ -74,7 +74,7 @@ router.get('/user', (req, res) => {
     const { username, isAdmin } = req.user as UserInterface
     res.send({ username, isAdmin })
   } else {
-    res.send({})
+    res.send(undefined)
   }
 })
 

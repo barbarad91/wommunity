@@ -5,18 +5,17 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@mdi/react'
 import { mdiMenu, mdiChevronLeft } from '@mdi/js'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Drawer } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import { loggedUserContext } from 'src/Pages/userContext'
+import { useLoggedUserContext } from 'src/Pages/LoggedUserContext'
 import clsx from 'clsx'
 import BarMenu from './BarMenu'
 
 const NavBar = () => {
   const classes = useStyles()
 
-  const { user } = useContext(loggedUserContext)
-  const userIsEmpty = !Object.keys(user).length
+  const { user } = useLoggedUserContext()
 
   const [open, setOpen] = useState(false)
 
@@ -28,7 +27,7 @@ const NavBar = () => {
     <div className={classes.root}>
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-          {!userIsEmpty && (
+          {user && (
             <>
               <IconButton
                 edge="start"
@@ -47,7 +46,7 @@ const NavBar = () => {
         </Toolbar>
       </AppBar>
 
-      {!userIsEmpty && (
+      {user && (
         <Drawer
           variant="permanent"
           classes={{ paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose) }}

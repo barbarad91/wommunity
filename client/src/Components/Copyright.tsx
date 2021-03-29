@@ -1,6 +1,6 @@
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
-import { createStyles, makeStyles, Theme } from '@material-ui/core'
+import { createStyles, makeStyles } from '@material-ui/core'
 
 const Copyright = () => {
   const classes = useStyles()
@@ -10,9 +10,8 @@ const Copyright = () => {
         {'Copyright © '}
         <Link color="inherit" href="https://material-ui.com/">
           Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
+        </Link>
+        {` ${new Date().getFullYear()}.`}
       </Typography>
     </div>
   )

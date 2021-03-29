@@ -1,13 +1,13 @@
-import { useContext } from 'react'
 import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router'
-import { loggedUserContext } from 'src/Pages/userContext'
+import { useLoggedUserContext } from 'src/Pages/LoggedUserContext'
 
 const AdminRoute = ({ component: Component, ...otherProps }: RouteProps) => {
-  const { user } = useContext(loggedUserContext)
+  const { user } = useLoggedUserContext()
   return (
     <Route
-      render={(otherProps: RouteComponentProps) =>
-        user && user.isAdmin && Component ? <Component {...otherProps} /> : <Redirect to="/" />
+      {...otherProps}
+      render={(routeProps: RouteComponentProps) =>
+        user && user.isAdmin && Component ? <Component {...routeProps} /> : <Redirect to="/" />
       }
     ></Route>
   )

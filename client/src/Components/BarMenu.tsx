@@ -1,5 +1,3 @@
-import { useContext } from 'react'
-
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -9,17 +7,17 @@ import { mdiAccount, mdiLogoutVariant } from '@mdi/js'
 import { List } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
-import { loggedUserContext } from 'src/Pages/userContext'
+import { useLoggedUserContext } from 'src/Pages/LoggedUserContext'
 import AuthService from 'src/Services/auth.service'
 
 const BarMenu = () => {
-  const { setUser } = useContext(loggedUserContext)
+  const { setUser } = useLoggedUserContext()
 
   const authService = new AuthService()
 
   const signOut = async () => {
     await authService.signOut()
-    setUser({})
+    setUser(undefined)
   }
 
   return (

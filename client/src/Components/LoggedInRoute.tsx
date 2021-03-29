@@ -1,14 +1,14 @@
-import { useContext } from 'react'
 import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router'
-import { loggedUserContext } from 'src/Pages/userContext'
+import { useLoggedUserContext } from 'src/Pages/LoggedUserContext'
 
 const LoggedInRoute = ({ component: Component, ...otherProps }: RouteProps) => {
-  const { user } = useContext(loggedUserContext)
-  console.log('user de loggedin', user)
+  const { user } = useLoggedUserContext()
+
   return (
     <Route
-      render={(otherProps: RouteComponentProps) =>
-        user && Component ? <Component {...otherProps} /> : <Redirect to="/signin" />
+      {...otherProps}
+      render={(routeProps: RouteComponentProps) =>
+        user && Component ? <Component {...routeProps} /> : <Redirect to="/signin" />
       }
     ></Route>
   )

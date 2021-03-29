@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './Components/App'
 import theme from './Components/theme'
-import UserContext from './Pages/userContext'
+import UserContext from './Pages/LoggedUserContext'
 
 ReactDOM.render(
   <React.StrictMode>

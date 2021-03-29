@@ -5,22 +5,20 @@ import Homepage from '../Pages/Homepage'
 import Profile from '../Pages/Profile'
 import SignIn from '../Pages/SignIn'
 import Copyright from './Copyright'
-import { loggedUserContext } from '../Pages/userContext'
+import { useLoggedUserContext } from '../Pages/LoggedUserContext'
 import SignUp from '../Pages/SignUp'
-import { useContext } from 'react'
 import LoggedInRoute from './LoggedInRoute'
 import LoggedOutRoute from './LoggedOutRoute'
 import AdminRoute from './AdminRoute'
 
 function App() {
-  const { user } = useContext(loggedUserContext)
-  const userIsEmpty = !Object.keys(user).length
+  const { user } = useLoggedUserContext()
   return (
     <BrowserRouter>
       <NavBar />
       <Switch>
         <Route path="/" exact>
-          {!userIsEmpty ? <Homepage /> : <Redirect to="signin" />}
+          {user ? <Homepage /> : <Redirect to="signin" />}
         </Route>
         <LoggedOutRoute path="/signin" component={SignIn} />
         <LoggedOutRoute path="/signup" component={SignUp} />

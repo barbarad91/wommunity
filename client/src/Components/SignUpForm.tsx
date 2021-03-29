@@ -2,15 +2,14 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import AuthService from 'src/Services/auth.service'
-import { loggedUserContext } from 'src/Pages/userContext'
+import { useLoggedUserContext } from 'src/Pages/LoggedUserContext'
 import { useHistory } from 'react-router'
 
 type SignUpFormProps = {
   formClass?: string
   submitClass?: string
-  history?: any
 }
 
 const SignUpForm = ({ formClass, submitClass }: SignUpFormProps) => {
@@ -20,7 +19,7 @@ const SignUpForm = ({ formClass, submitClass }: SignUpFormProps) => {
 
   const history = useHistory()
 
-  const { setUser } = useContext(loggedUserContext)
+  const { setUser } = useLoggedUserContext()
   const authService = new AuthService()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
