@@ -38,28 +38,6 @@ const passportConfig = (app: Express) => {
       } catch (error) {
         return done(error, false)
       }
-      // .then(user=>{
-
-      //   if (!user) {
-      //     console.log('notiuser')
-      //     return done(null, false, { message: "This username doesn't exist" })
-      //   }
-      //   if (!bcrypt.compareSync(password, user.password)) {
-      //     return done(null, false, { message: "Wrong password" })
-      // }
-      // })
-
-      // , (err: Error, user: any) => {
-      //   if (err) {
-      //     return done(null, false, { message: err.message })
-      //   }
-
-      //   bcrypt.compare(password, user.password, (err, result) => {
-      //     if (result) {
-      //       return done(null, user)
-      //     } else return done(null, false)
-      //   })
-      // })
     })
   )
 

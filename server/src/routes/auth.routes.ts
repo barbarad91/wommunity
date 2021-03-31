@@ -20,8 +20,11 @@ router.post('/signup', async (req: Request, res: Response) => {
     return
   }
 
-  User.findOne({ username }, async (err: Error, doc: UserInterface) => {
-    if (err) throw err
+  User.findOne({ username }, async (error: Error, doc: UserInterface) => {
+    if (error) {
+      res.status(500).json({ code: 500, message: error.message })
+      return
+    }
 
     if (doc) res.send('User already exists')
 
@@ -51,8 +54,7 @@ router.post('/signup', async (req: Request, res: Response) => {
 router.post('/signin', (req, res, next) => {
   passport.authenticate('local', { failureFlash: true }, (err, theUser, failureDetails) => {
     if (err) {
-      console.log(err)
-      res.status(500).json({ message: 'Error authenticating user' })
+      res.status(500).json({ code: 500, message: 'Error authenticating user' })
       return
     }
 
@@ -61,10 +63,9 @@ router.post('/signin', (req, res, next) => {
       return
     }
 
-    console.log(theUser)
     const { username, isAdmin } = theUser
     req.login(theUser, (err) =>
-      err ? res.status(500).json({ message: 'Session error' }) : res.json({ username, isAdmin })
+      err ? res.status(500).json({ code: 500, message: 'Session error' }) : res.json({ username, isAdmin })
     )
   })(req, res, next)
 })
@@ -84,6 +85,17 @@ router.get('/signout', (req, res) => {
     res.send(req.user)
   } else {
     res.send('There was an error during sign out')
+  }
+})
+
+// TODO:
+// Create middleware
+router.post('/deleteuser', async (req, res) => {
+  try {
+    await User.deleteOne({ username: req.body.username })
+    res.send('Account deleted')
+  } catch (error) {
+    res.status(500).json({ code: 500, message: error.message })
   }
 })
 

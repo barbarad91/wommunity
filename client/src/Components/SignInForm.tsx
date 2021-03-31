@@ -6,6 +6,8 @@ import React, { useState } from 'react'
 import AuthService from 'src/Services/auth.service'
 import { useLoggedUserContext } from 'src/Pages/LoggedUserContext'
 import { useHistory } from 'react-router'
+import { Alert } from '@material-ui/lab'
+import { Snackbar } from '@material-ui/core'
 
 type SignInFormProps = {
   formClass?: string
@@ -15,6 +17,8 @@ type SignInFormProps = {
 const SignInForm = ({ formClass, submitClass }: SignInFormProps) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [signInError, setSignInError] = useState('')
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
 
   const history = useHistory()
 
@@ -23,48 +27,61 @@ const SignInForm = ({ formClass, submitClass }: SignInFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setSignInError('')
     try {
-      console.log('in')
       const userData = await authService.signIn({ username, password })
-      console.log(userData)
       setUser(userData.data)
       history.push('/')
     } catch (error) {
-      console.error(error)
+      setSignInError(error.response.data.message)
+      setSnackbarOpen(true)
     }
   }
 
   return (
-    <form className={formClass} noValidate onSubmit={handleSubmit}>
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        id="email"
-        label="Email Address"
-        name="email"
-        autoComplete="email"
-        autoFocus
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        name="password"
-        label="Password"
-        type="password"
-        id="password"
-        autoComplete="current-password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-      <Button type="submit" fullWidth variant="contained" color="primary" className={submitClass}>
-        Sign In
-      </Button>
-    </form>
+    <>
+      {signInError && (
+        <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={() => setSnackbarOpen(false)}>
+          <Alert severity="error">{signInError}</Alert>
+        </Snackbar>
+      )}
+      <form className={formClass} noValidate onSubmit={handleSubmit}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          onChange={(e) => {
+            setUsername(e.target.value)
+            setSignInError('')
+          }}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          onChange={(e) => {
+            setPassword(e.target.value)
+            setSignInError('')
+          }}
+        />
+        <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+        <Button type="submit" fullWidth variant="contained" color="primary" className={submitClass}>
+          Sign In
+        </Button>
+      </form>
+    </>
   )
 }
 
