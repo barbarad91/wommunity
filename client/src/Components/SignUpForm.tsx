@@ -46,7 +46,7 @@ const SignUpForm = ({ formClass, submitClass }: SignUpFormProps) => {
           <Alert severity="error">{signUpError}</Alert>
         </Snackbar>
       )}
-      <form className={formClass} noValidate onSubmit={(e) => handleSubmit(e)}>
+      <form className={formClass} onSubmit={(e) => handleSubmit(e)}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -55,6 +55,7 @@ const SignUpForm = ({ formClass, submitClass }: SignUpFormProps) => {
           id="email"
           label="Email Address"
           name="email"
+          type="email"
           autoComplete="email"
           autoFocus
           onChange={(e) => setUsername(e.target.value)}
@@ -64,10 +65,10 @@ const SignUpForm = ({ formClass, submitClass }: SignUpFormProps) => {
           margin="normal"
           required
           fullWidth
-          name="password"
-          label="Password"
-          type="password"
           id="password"
+          label="Password"
+          name="password"
+          type="password"
           autoComplete="current-password"
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -76,10 +77,10 @@ const SignUpForm = ({ formClass, submitClass }: SignUpFormProps) => {
           margin="normal"
           required
           fullWidth
-          name="confirmPassword"
-          label="confirmPassword"
-          type="password"
           id="confirmPassword"
+          label="confirmPassword"
+          name="confirmPassword"
+          type="password"
           autoComplete="current-password"
           onChange={(e) => setConfirmPassword(e.target.value)}
         />

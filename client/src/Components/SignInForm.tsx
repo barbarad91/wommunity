@@ -45,7 +45,7 @@ const SignInForm = ({ formClass, submitClass }: SignInFormProps) => {
           <Alert severity="error">{signInError}</Alert>
         </Snackbar>
       )}
-      <form className={formClass} noValidate onSubmit={handleSubmit}>
+      <form className={formClass} onSubmit={handleSubmit}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -54,6 +54,7 @@ const SignInForm = ({ formClass, submitClass }: SignInFormProps) => {
           id="email"
           label="Email Address"
           name="email"
+          type="email"
           autoComplete="email"
           autoFocus
           onChange={(e) => {
