@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "outDir": "build/dist",
+    "outDir": "dist",
     "module": "commonjs",
     "target": "es5",
     "lib":["es6","dom"],
@@ -17,6 +17,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
+    "skipLibCheck": true
   },
   "compileOnSave": true,
   "include": [
