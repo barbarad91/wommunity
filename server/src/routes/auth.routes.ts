@@ -11,12 +11,12 @@ router.post('/signup', async (req: Request, res: Response) => {
   const { username, password, confirmPassword } = req?.body
 
   if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
-    res.send('Improper Values')
+    res.status(400).json({ code: 400, message: 'Missing credentials' })
     return
   }
 
   if (password !== confirmPassword) {
-    res.send('Passwords do not match')
+    res.status(400).json({ code: 400, message: 'Passwords do not match' })
     return
   }
 
@@ -26,7 +26,7 @@ router.post('/signup', async (req: Request, res: Response) => {
       return
     }
 
-    if (doc) res.send('User already exists')
+    if (doc) res.status(409).json({ code: 409, message: 'User already exists' })
 
     if (!doc) {
       try {
@@ -45,7 +45,7 @@ router.post('/signup', async (req: Request, res: Response) => {
         const bb = (createdUser as unknown) as UserInterface
         res.send({ username: bb.username, isAdmin: bb.isAdmin })
       } catch (error) {
-        res.send('There was an error during sign up')
+        res.status(500).json({ code: 500, message: 'An error ocurred during sign up' })
       }
     }
   })
@@ -84,7 +84,7 @@ router.get('/signout', (req, res) => {
   if (!req.user) {
     res.send(req.user)
   } else {
-    res.send('There was an error during sign out')
+    res.status(500).json({ code: 500, message: 'An error occured during sign out' })
   }
 })
 
