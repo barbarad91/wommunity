@@ -6,6 +6,7 @@ import User from '../models/User.model'
 import { Express } from 'express'
 import flash from 'connect-flash'
 import { UserInterface } from 'src/Interfaces/User.interface'
+import MongoStore from 'connect-mongo'
 
 const LocalStrategy = passportLocal.Strategy
 
@@ -15,6 +16,7 @@ const passportConfig = (app: Express) => {
       secret: '7LpinfO0SnWPjgfeKIGf',
       resave: true,
       saveUninitialized: true,
+      store: MongoStore.create({ mongoUrl: `${process.env.MONGODB_URI}` }),
     })
   )
 
