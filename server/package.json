@@ -8,7 +8,8 @@
     "build": "tsc",
     "test-start": "nodemon --exec ts-node src/index.ts",
     "start": "npm run build && node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild":"npm run build"
   },
   "engines": {
     "node": "14"
