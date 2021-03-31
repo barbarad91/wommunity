@@ -2,7 +2,7 @@ import mongoose, { Error } from 'mongoose'
 
 const dbConfig = () => {
   mongoose.connect(
-    `mongodb://localhost/wommunity`,
+    `${process.env.MONGODB_URI}`,
     {
       useCreateIndex: true,
       useNewUrlParser: true,
